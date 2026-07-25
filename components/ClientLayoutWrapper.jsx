@@ -9,7 +9,7 @@ export default function ClientLayoutWrapper({ children }) {
 
   if (isLoginPage) {
     return (
-      <main className="flex-1 w-full min-h-screen flex flex-col m-0 p-0">
+      <main className="w-full min-h-screen flex flex-col m-0 p-0">
         {children}
       </main>
     );
@@ -18,7 +18,7 @@ export default function ClientLayoutWrapper({ children }) {
   return (
     <>
       <Navbar />
-      <main className="flex-1 w-full flex flex-col">
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {children}
       </main>
       <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
