@@ -5,8 +5,13 @@ import Navbar from "@/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "EduFlex - Enterprise Faculty Leave & Substitute Management",
-  description: "Modern SaaS portal for faculty leave tracking, automated substitute coverage, and HR approval workflows.",
+  title: "Washington School Inc. - Faculty Leave & Substitute Management",
+  description: "Official Faculty Leave & Substitute Management Portal for Washington School Inc.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -19,17 +24,13 @@ export default function RootLayout({ children }) {
         </main>
         <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div>
-              &copy; {new Date().getFullYear()} EduFlex HR Systems Inc. Enterprise Faculty Portal.
+            <div className="flex items-center space-x-2">
+              <img src="/logo.png" alt="Washington School Inc." className="w-5 h-5 object-contain" />
+              <span className="font-semibold text-slate-700">Washington School Inc.</span>
+              <span>&copy; {new Date().getFullYear()} All rights reserved.</span>
             </div>
-            <div className="flex items-center space-x-4">
-              <span className="inline-flex items-center gap-1.5 text-emerald-600 font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                Supabase Connected
-              </span>
-              <span>•</span>
-              <a href="#" className="hover:text-slate-700 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-slate-700 transition-colors">Terms of Service</a>
+            <div className="text-slate-400 font-medium text-[11px]">
+              Faculty Leave & Substitute Management System
             </div>
           </div>
         </footer>

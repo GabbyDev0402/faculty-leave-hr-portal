@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
-  GraduationCap, 
   Lock, 
   Mail, 
   ArrowRight, 
@@ -135,11 +134,11 @@ export default function LoginPage() {
         
         {/* Card Header */}
         <div className="bg-slate-900 text-white p-8 text-center relative">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 mx-auto flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/30">
-            <GraduationCap className="w-7 h-7 text-white" />
+          <div className="w-16 h-16 rounded-2xl bg-white p-1.5 mx-auto flex items-center justify-center mb-4 shadow-lg">
+            <img src="/logo.png" alt="Washington School Inc." className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">EduFlex HR Portal</h1>
-          <p className="text-xs text-slate-400 mt-1">Enterprise Faculty & Staff Authorization</p>
+          <h1 className="text-xl font-bold tracking-tight">Washington School Inc.</h1>
+          <p className="text-xs text-slate-400 mt-1">Faculty & Staff HR Authorization Portal</p>
 
           {/* Smooth Tab Switcher */}
           <div className="mt-6 inline-flex p-1 rounded-xl bg-slate-800 border border-slate-700/80 w-full">
@@ -234,7 +233,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="faculty@district.edu"
+                  placeholder="faculty@washingtonschool.edu"
                   className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                 />
               </div>
@@ -308,15 +307,15 @@ export default function LoginPage() {
 
         </div>
 
-        {/* Security Badge Footer */}
+        {/* Clean Security Badge Footer */}
         <div className="bg-slate-50 px-8 py-3.5 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-500">
           <span className="flex items-center gap-1.5 font-medium">
             <Shield className="w-3.5 h-3.5 text-indigo-600" />
-            Protected by Supabase Auth
+            Official HR System
           </span>
           <span className="flex items-center gap-1 text-emerald-600 font-semibold">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            Active SSL
+            Active SSL Encryption
           </span>
         </div>
 

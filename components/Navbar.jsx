@@ -4,17 +4,12 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { 
-  GraduationCap, 
   UserCheck, 
   ShieldCheck, 
   Clock, 
-  ChevronDown, 
   Bell, 
   LogOut,
-  LogIn,
-  Sparkles,
-  User,
-  CheckCircle2
+  LogIn
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -25,9 +20,8 @@ export default function Navbar() {
   // Auth state
   const [session, setSession] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 
-  // 1. Monitor Supabase Auth Session & Profile
+  // Monitor Supabase Auth Session & Profile
   useEffect(() => {
     // Fetch initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -66,7 +60,7 @@ export default function Navbar() {
     }
   };
 
-  // 2. Handle Sign Out
+  // Handle Sign Out
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut();
@@ -97,17 +91,17 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           
-          {/* Brand Logo & Title */}
+          {/* Official Washington School Inc. Brand Logo & Title */}
           <div className="flex items-center space-x-3">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">
-                <GraduationCap className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
+                <img src="/logo.png" alt="Washington School Inc. Logo" className="w-full h-full object-contain" />
               </div>
               <div>
-                <span className="font-bold text-lg text-slate-900 tracking-tight flex items-center gap-1.5">
-                  EduFlex <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-600 border border-indigo-100">SaaS</span>
+                <span className="font-bold text-base text-slate-900 tracking-tight flex items-center gap-1.5">
+                  Washington School Inc.
                 </span>
-                <span className="text-xs text-slate-500 block font-medium">Faculty Leave & Substitute Portal</span>
+                <span className="text-[11px] text-slate-500 block font-medium">Faculty Leave & Substitute Portal</span>
               </div>
             </Link>
           </div>
