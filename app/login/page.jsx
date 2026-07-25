@@ -13,7 +13,9 @@ import {
   User,
   Loader2,
   UserCheck,
-  Clock
+  Clock,
+  Briefcase,
+  Sparkles
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -29,6 +31,7 @@ export default function LoginPage() {
   
   // UX State
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [demoLoadingRole, setDemoLoadingRole] = useState(null); // 'admin' | 'teacher' | 'substitute' | null
   const [errorMsg, setErrorMsg] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
 
@@ -82,7 +85,54 @@ export default function LoginPage() {
     }
   };
 
-  // 2. Handle Registration with Selected Account Type (Teacher / Substitute)
+  // 2. Portfolio Demo Quick Login Handler
+  const handleDemoLogin = async (demoRole, demoEmail, demoPassword) => {
+    setDemoLoadingRole(demoRole);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email: demoEmail,
+        password: demoPassword,
+      });
+
+      if (authError) throw authError;
+
+      if (!data?.user) {
+        throw new Error("Demo user session could not be established.");
+      }
+
+      // Fetch user role from profiles table
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
+
+      const role = profile?.role || demoRole;
+
+      setSuccessMsg(`Authenticated as ${role.toUpperCase()} demo user! Redirecting...`);
+
+      setTimeout(() => {
+        if (role === 'admin') {
+          router.push('/admin');
+        } else if (role === 'substitute') {
+          router.push('/substitute');
+        } else {
+          router.push('/teacher');
+        }
+      }, 600);
+
+    } catch (err) {
+      console.error("Demo login error:", err);
+      setErrorMsg(`Demo login failed for ${demoEmail}: ${err.message || 'Verify test account credentials.'}`);
+    } finally {
+      setDemoLoadingRole(null);
+    }
+  };
+
+  // 3. Handle Registration with Selected Account Type (Teacher / Substitute)
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!fullName.trim()) {
@@ -290,7 +340,7 @@ export default function LoginPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || demoLoadingRole !== null}
               className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-400 text-white rounded-xl text-xs font-semibold transition-all shadow-md shadow-indigo-600/20 flex items-center justify-center space-x-2 cursor-pointer disabled:cursor-not-allowed mt-2"
             >
               {isSubmitting ? (
@@ -305,9 +355,81 @@ export default function LoginPage() {
             </button>
           </form>
 
+          {/* Portfolio Demo Access Divider */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200" />
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-wider">
+              <span className="bg-white px-2 text-slate-400 flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-indigo-500" />
+                Portfolio Demo Access
+              </span>
+            </div>
+          </div>
+
+          {/* Portfolio Demo Quick Login Buttons */}
+          <div className="space-y-2">
+            
+            {/* Demo Admin */}
+            <button
+              type="button"
+              disabled={isSubmitting || demoLoadingRole !== null}
+              onClick={() => handleDemoLogin('admin', 'admin@test.com', 'password1234')}
+              className="w-full py-2 px-3 bg-slate-50 hover:bg-purple-50 text-slate-700 hover:text-purple-700 border border-slate-200 hover:border-purple-200 rounded-xl text-xs font-semibold transition-all flex items-center justify-between cursor-pointer disabled:opacity-50"
+            >
+              <div className="flex items-center space-x-2">
+                <Shield className="w-4 h-4 text-purple-600" />
+                <span>Log in as Admin</span>
+              </div>
+              {demoLoadingRole === 'admin' ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-600" />
+              ) : (
+                <span className="text-[10px] text-slate-400 font-mono">admin@test.com</span>
+              )}
+            </button>
+
+            {/* Demo Teacher */}
+            <button
+              type="button"
+              disabled={isSubmitting || demoLoadingRole !== null}
+              onClick={() => handleDemoLogin('teacher', 'teacher@test.com', 'password1234')}
+              className="w-full py-2 px-3 bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-200 hover:border-indigo-200 rounded-xl text-xs font-semibold transition-all flex items-center justify-between cursor-pointer disabled:opacity-50"
+            >
+              <div className="flex items-center space-x-2">
+                <UserCheck className="w-4 h-4 text-indigo-600" />
+                <span>Log in as Teacher</span>
+              </div>
+              {demoLoadingRole === 'teacher' ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-600" />
+              ) : (
+                <span className="text-[10px] text-slate-400 font-mono">teacher@test.com</span>
+              )}
+            </button>
+
+            {/* Demo Substitute */}
+            <button
+              type="button"
+              disabled={isSubmitting || demoLoadingRole !== null}
+              onClick={() => handleDemoLogin('substitute', 'sub@test.com', 'password1234')}
+              className="w-full py-2 px-3 bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border border-slate-200 hover:border-emerald-200 rounded-xl text-xs font-semibold transition-all flex items-center justify-between cursor-pointer disabled:opacity-50"
+            >
+              <div className="flex items-center space-x-2">
+                <Briefcase className="w-4 h-4 text-emerald-600" />
+                <span>Log in as Substitute</span>
+              </div>
+              {demoLoadingRole === 'substitute' ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
+              ) : (
+                <span className="text-[10px] text-slate-400 font-mono">sub@test.com</span>
+              )}
+            </button>
+
+          </div>
+
         </div>
 
-        {/* Clean Security Badge Footer */}
+        {/* Security Badge Footer */}
         <div className="bg-slate-50 px-8 py-3.5 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-500">
           <span className="flex items-center gap-1.5 font-medium">
             <Shield className="w-3.5 h-3.5 text-indigo-600" />

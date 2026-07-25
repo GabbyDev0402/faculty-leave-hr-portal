@@ -4,10 +4,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { 
-  UserCheck, 
-  ShieldCheck, 
-  Clock, 
-  Bell, 
   LogOut,
   LogIn
 } from 'lucide-react';
@@ -91,7 +87,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           
-          {/* Official Washington School Inc. Brand Logo & Title */}
+          {/* Official Washington School Inc. Brand Logo & Title (Left) */}
           <div className="flex items-center space-x-3">
             <Link href="/" className="flex items-center space-x-3 group">
               <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
@@ -106,45 +102,6 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1 bg-slate-100/80 p-1.5 rounded-xl border border-slate-200/60">
-            <Link
-              href="/teacher"
-              className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                pathname?.startsWith('/teacher')
-                  ? 'bg-white text-indigo-700 shadow-xs border border-slate-200/80'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-              }`}
-            >
-              <UserCheck className="w-4 h-4 text-indigo-500" />
-              <span>Teacher Dashboard</span>
-            </Link>
-
-            <Link
-              href="/admin"
-              className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                pathname?.startsWith('/admin')
-                  ? 'bg-white text-purple-700 shadow-xs border border-slate-200/80'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-              }`}
-            >
-              <ShieldCheck className="w-4 h-4 text-purple-500" />
-              <span>Admin Approvals</span>
-            </Link>
-
-            <Link
-              href="/substitute"
-              className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                pathname?.startsWith('/substitute')
-                  ? 'bg-white text-emerald-700 shadow-xs border border-slate-200/80'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-              }`}
-            >
-              <Clock className="w-4 h-4 text-emerald-500" />
-              <span>Substitute Board</span>
-            </Link>
-          </nav>
-
           {/* Right Action Items: Auth State & Sign Out */}
           <div className="flex items-center space-x-3">
             
@@ -155,7 +112,7 @@ export default function Navbar() {
                   {userProfile?.full_name?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <div className="flex items-center space-x-1.5">
-                  <span className="font-semibold text-slate-900 truncate max-w-[120px]">
+                  <span className="font-semibold text-slate-900 truncate max-w-[140px]">
                     {userProfile?.full_name || session.user.email?.split('@')[0]}
                   </span>
                   {userProfile?.role && (
