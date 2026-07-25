@@ -39,7 +39,7 @@ export default function AdminDashboard() {
   const [denialModalReq, setDenialModalReq] = useState(null);
   const [denialRemarkInput, setDenialRemarkInput] = useState('');
 
-  // Fetch requests on mount and subscribe to Supabase Realtime
+  // Fetch requests on mount and subscribe to Realtime
   useEffect(() => {
     fetchAdminRequests(true);
 
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
 
     } catch (err) {
       console.error("Error fetching admin leave requests:", err);
-      if (isInitial) setErrorMsg("Failed to load approval records from database.");
+      if (isInitial) setErrorMsg("Failed to load approval records.");
     } finally {
       if (isInitial) setLoading(false);
     }
@@ -186,7 +186,7 @@ export default function AdminDashboard() {
             <span>Review pending leave submissions and issue administrative denial remarks.</span>
             <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
               <Radio className="w-3 h-3 text-emerald-500 animate-pulse" />
-              Realtime Active
+              Live Updates Active
             </span>
           </p>
         </div>
@@ -288,14 +288,12 @@ export default function AdminDashboard() {
 
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-slate-500">Denied Submissions</p>
-            <h3 className="text-2xl font-extrabold text-rose-600 mt-1">
-              {historyRequests.filter(r => r.status === 'denied').length} Denied
-            </h3>
-            <span className="text-[10px] text-rose-600 font-medium">Recorded with admin remarks</span>
+            <p className="text-xs font-semibold text-slate-500">System Security Enforcement</p>
+            <h3 className="text-2xl font-extrabold text-emerald-600 mt-1">Active</h3>
+            <span className="text-[10px] text-emerald-600 font-medium">Administrative authorization active</span>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
-            <XCircle className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+            <ShieldCheck className="w-6 h-6" />
           </div>
         </div>
 
@@ -317,7 +315,7 @@ export default function AdminDashboard() {
           {loading ? (
             <div className="py-16 text-center text-slate-400 space-y-3">
               <Loader2 className="w-8 h-8 animate-spin mx-auto text-purple-600" />
-              <p className="text-xs font-medium">Fetching pending requests from Supabase...</p>
+              <p className="text-xs font-medium">Loading pending requests...</p>
             </div>
           ) : pendingRequests.length === 0 ? (
             

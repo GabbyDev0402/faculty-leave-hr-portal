@@ -102,7 +102,7 @@ export default function SubstituteDashboard() {
     }
   };
 
-  // Generate Secure Supabase Storage Signed URL (60-second expiration)
+  // Generate Secure Storage Signed URL (60-second expiration)
   const handleViewLessonPlan = async (filePath, targetId) => {
     if (!filePath) {
       setErrorMsg("No lesson plan file attached to this request.");
@@ -145,7 +145,6 @@ export default function SubstituteDashboard() {
     setSuccessMsg(null);
 
     try {
-      // UPDATE class_schedules table setting substitute_id = currentUser.id
       const { data, error } = await supabase
         .from('class_schedules')
         .update({ substitute_id: currentUser.id })
@@ -155,8 +154,6 @@ export default function SubstituteDashboard() {
       if (error) throw error;
 
       setSuccessMsg("Class coverage assignment claimed successfully!");
-
-      // Refresh board data from database so UI updates immediately
       await fetchSubstituteBoardData();
 
     } catch (err) {
@@ -174,7 +171,7 @@ export default function SubstituteDashboard() {
         <div>
           <div className="flex items-center space-x-2 text-xs font-semibold text-emerald-600 mb-1">
             <Clock className="w-4 h-4" />
-            <span>Substitute Staffing Portal • Relational Coverage Board</span>
+            <span>Substitute Staffing Portal • Faculty Coverage Board</span>
           </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
             Open Class Schedules Board
@@ -234,7 +231,7 @@ export default function SubstituteDashboard() {
           {loading ? (
             <div className="py-16 text-center text-slate-400 space-y-3 bg-white rounded-2xl border border-slate-200">
               <Loader2 className="w-8 h-8 animate-spin mx-auto text-emerald-600" />
-              <p className="text-xs font-medium">Loading open class schedules from database...</p>
+              <p className="text-xs font-medium">Loading available coverage assignments...</p>
             </div>
           ) : availableJobs.length === 0 ? (
             
@@ -273,7 +270,6 @@ export default function SubstituteDashboard() {
                     key={job.id} 
                     className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-all space-y-4"
                   >
-                    {/* Card Header (No hardcoded stipend) */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
                       <div>
                         <div className="flex items-center space-x-2">
