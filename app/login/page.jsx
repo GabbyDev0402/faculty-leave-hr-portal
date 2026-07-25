@@ -145,13 +145,13 @@ export default function LoginPage() {
     setSuccessMsg(null);
 
     try {
-      // Pass full_name and selected role in user metadata for trigger `handle_new_user()`
+      // Pass full_name (snake_case) and selected role in user metadata for trigger `handle_new_user()`
       const { data, error: authError } = await supabase.auth.signUp({
         email: email.trim(),
         password,
         options: {
           data: {
-            full_name: fullName.trim(),
+            full_name: fullName,
             role: selectedRole,
           },
         },
