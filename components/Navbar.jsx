@@ -3,10 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { 
-  LogOut,
-  LogIn
-} from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 export default function Navbar() {
@@ -102,49 +99,38 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Right Action Items: Auth State & Sign Out */}
+          {/* Right Action Items: Authenticated User Profile & Sign Out Button */}
           <div className="flex items-center space-x-3">
-            
-            {/* Authenticated User Profile Chip */}
             {session && (
-              <div className="hidden sm:flex items-center space-x-2 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-                <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[10px]">
-                  {userProfile?.full_name?.charAt(0).toUpperCase() || 'U'}
-                </div>
-                <div className="flex items-center space-x-1.5">
-                  <span className="font-semibold text-slate-900 truncate max-w-[140px]">
-                    {userProfile?.full_name || session.user.email?.split('@')[0]}
-                  </span>
-                  {userProfile?.role && (
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border capitalize ${getRoleBadgeStyle(userProfile.role)}`}>
-                      {userProfile.role}
+              <>
+                <div className="hidden sm:flex items-center space-x-2 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                  <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[10px]">
+                    {userProfile?.full_name?.charAt(0).toUpperCase() || 'U'}
+                  </div>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="font-semibold text-slate-900 truncate max-w-[140px]">
+                      {userProfile?.full_name || session.user.email?.split('@')[0]}
                     </span>
-                  )}
+                    {userProfile?.role && (
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border capitalize ${getRoleBadgeStyle(userProfile.role)}`}>
+                        {userProfile.role}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
 
-            {/* Conditional Sign In / Sign Out Button */}
-            {session ? (
-              <button
-                onClick={handleSignOut}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-rose-600 text-white text-xs font-semibold transition-all shadow-xs cursor-pointer"
-                title="Sign Out of Portal"
-              >
-                <LogOut className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Sign Out</span>
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all shadow-xs"
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                <span>Sign In</span>
-              </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-rose-600 text-white text-xs font-semibold transition-all shadow-xs cursor-pointer"
+                  title="Sign Out of Portal"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </button>
+              </>
             )}
-
           </div>
+
         </div>
       </div>
     </header>
